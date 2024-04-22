@@ -33,33 +33,35 @@ def sampleDSignal(xs,ys,mul=1):
     newYs.append(ys[len(ys)-1])
     return newXs,newYs
 
+printStuff=False
+
 def smoothSignal(signal,samplerMul,nOfNeibours=1):
     xs,ys=sampleDSignal(signal[0],signal[1],samplerMul)
     newSig=[]
-    print("nofnei:",nOfNeibours)
-    input("Começar?")
+    if printStuff: print("nofnei:",nOfNeibours)
+    if printStuff: input("Começar?")
     for i,y in enumerate(ys):
         mean=0
         count=0
-        print("y:",y)
-        if i==10: input("Parou")
+        if printStuff: print("y:",y)
+        if i==10:
+            if printStuff: input("Parou")
+        virtualNofNeibours=0
         for minus in range(nOfNeibours):
-            print("   minus:",minus)
-            try:                
+            if printStuff: print("   minus:",minus)
+            if i-(minus+1)>0:               
                 mean+=ys[i-(minus+1)]
                 count+=1
-                print("      Euntou no try:",mean,"count:",count)
-            except: pass
+                if printStuff: print("      Euntou no try:",mean,"count:",count)
         for plus in range(nOfNeibours):
-            print("   plus")
-            try:
+            if printStuff: print("   plus")
+            if int(i+(plus+1))<len(ys): 
                 mean+=ys[int(i+(plus+1))]
                 count+=1
-                print("      Euntou no try:",mean,"count:",count)
-            except: pass
+                if printStuff: print("      Euntou no try:",mean,"count:",count)
         mean+=y
         mean=mean/(count+1)
-        print("mean:",mean,"count:",count+1,"\n\n")
+        if printStuff: print("mean:",mean,"count:",count+1,"\n\n")
         newSig.append(mean)
     newSig[0]=ys[0]
     return xs,newSig

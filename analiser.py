@@ -35,9 +35,8 @@ fig, axs=plt.subplots(len(smuls),len(nneis))
 for i,smul in enumerate(smuls):
     for j,nnei in enumerate(nneis):
         sx,sy=sample=smoothSignal([ms,fcs],smul,nnei)
-        axs[i,j].plot(ms,fs)
+        axs[i,j].plot(ms,fcs)
         axs[i,j].plot(sx,sy,c='r')
-        axs[i,j].set_title("Mul"+str(smul)+" Nn:"+str(nnei))
-        input()
+        axs[i,j].set_title("Mul:"+str(smul)+" Nn:"+str(nnei))
 
 plt.show()
