@@ -36,8 +36,8 @@ def plotLine(v): plt.plot([0,3.2],[v,v])
 
 x,y=smoothSignal([ms,fcs],1,10)
 plt.plot(x,y)
-num=[7.933]
-den=[0.55936,1]
+num=[23.3333]
+den=[0.1864,1]
 sys=tf(num, den)
 y,t=step(sys)
 plt.plot(t,y)
