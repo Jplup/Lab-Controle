@@ -11,7 +11,7 @@ ts=[]
 while(sensores.inWaiting()==0):
     pass
 #Capting the ESP32 string and converting it into a list 
-for t in range(100):
+for t in range(300):
     leitura = sensores.readline()
     leitura = str(leitura,'utf-8')
     leitura = leitura.strip('\r\n')
@@ -30,7 +30,7 @@ for t in ts:
 
 print("Todos:",ts)
 plt.plot(range(len(fs)),fs)
-plt.axis([0,100,0,0.005])
+plt.axis([0,300,0,0.005])
 plt.show()
 
-with open("dados2.json",'w') as f: json.dump(fs,f)
+with open("dados4.json",'w') as f: json.dump(fs,f)

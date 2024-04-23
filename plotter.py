@@ -1,8 +1,9 @@
-ts=[979973,13342,7858,5891,5277,4523,3949,3785,3574,3125,3203,2999,2728,2816,2475,2458]
-
+import json
 import matplotlib.pyplot as plt
 
-fs=[1/t for t in ts]
+dadosmax=4
 
-plt.plot(range(len(fs)),fs)
-plt.show()
+for n in range(dadosmax):
+    with open("dados"+str(n+1)+".json") as f: sig=json.load(f)
+    plt.plot(range(len(sig)),sig)
+    plt.show()

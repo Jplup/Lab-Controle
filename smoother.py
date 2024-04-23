@@ -46,19 +46,17 @@ def smoothSignal(signal,samplerMul,nOfNeibours=1):
         if printStuff: print("y:",y)
         if i==10:
             if printStuff: input("Parou")
-        virtualNofNeibours=0
-        for minus in range(nOfNeibours):
-            if printStuff: print("   minus:",minus)
-            if i-(minus+1)>0:               
-                mean+=ys[i-(minus+1)]
-                count+=1
-                if printStuff: print("      Euntou no try:",mean,"count:",count)
-        for plus in range(nOfNeibours):
+        virtualNofNeibours=nOfNeibours
+        if i<nOfNeibours: virtualNofNeibours=i
+        if i>=len(ys)-nOfNeibours: virtualNofNeibours=len(ys)-i-1
+        for minus in range(virtualNofNeibours):
+            if printStuff: print("   minus:",minus)               
+            mean+=ys[i-(minus+1)]
+            count+=1
+        for plus in range(virtualNofNeibours):
             if printStuff: print("   plus")
-            if int(i+(plus+1))<len(ys): 
-                mean+=ys[int(i+(plus+1))]
-                count+=1
-                if printStuff: print("      Euntou no try:",mean,"count:",count)
+            mean+=ys[int(i+(plus+1))]
+            count+=1
         mean+=y
         mean=mean/(count+1)
         if printStuff: print("mean:",mean,"count:",count+1,"\n\n")
