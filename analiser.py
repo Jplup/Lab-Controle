@@ -1,7 +1,7 @@
 import json
 import matplotlib.pyplot as plt
-from filtroKalman import kalman_filter as filt
 from smoother import smoothSignal
+from control.matlab import *
 
 with open("dados4.json") as f:
     fs=json.load(f)[2:]
@@ -34,6 +34,15 @@ fcs=[f*100000 for f in fcs]
 
 def plotLine(v): plt.plot([0,3.2],[v,v])
 
+x,y=smoothSignal([ms,fcs],1,10)
+plt.plot(x,y)
+num=[7.933]
+den=[0.55936,1]
+sys=tf(num, den)
+y,t=step(sys)
+plt.plot(t,y)
+plt.show()
+
 plotLine(23.333)
 plotLine(23.333*0.632)
 plotLine(23.333*0.95)
@@ -43,6 +52,8 @@ for f,c in zip(nneis,cols):
     plt.plot(x,y,c)
 plt.show()
 
+
+"""
 fig, axs=plt.subplots(len(smuls),len(nneis))
 for i,smul in enumerate(smuls):
     for j,nnei in enumerate(nneis):
@@ -52,3 +63,4 @@ for i,smul in enumerate(smuls):
         axs[i,j].set_title("Mul:"+str(smul)+" Nn:"+str(nnei))
 
 plt.show()
+"""

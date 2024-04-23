@@ -4,14 +4,14 @@ from control.matlab import *
 
 # Defina a função de transferência
 num = [1]  # Numerador
-den = [1, 1, 1]  # Denominador
+den = [ 1, 1]  # Denominador
 sys = tf(num, den)
 
 # Calcule a resposta ao degrau
-t_step, y_step = step(sys)
+y, t = step(sys)
 
 # Plot
-plt.plot(t_step, y_step)
+plt.plot(t,y)
 plt.title('Resposta ao Degrau')
 plt.xlabel('Tempo')
 plt.ylabel('Saída')
