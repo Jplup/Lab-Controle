@@ -2,6 +2,8 @@ import json
 import matplotlib.pyplot as plt
 from smoother import smoothSignal
 from control.matlab import *
+import numpy as np
+import control
 
 with open("dados4.json") as f:
     fs=json.load(f)[2:]
@@ -36,11 +38,17 @@ def plotLine(v): plt.plot([0,3.2],[v,v])
 
 x,y=smoothSignal([ms,fcs],1,10)
 plt.plot(x,y)
-num=[23.3333]
-den=[0.1864,1]
-sys=tf(num, den)
-y,t=step(sys)
-plt.plot(t,y)
+for tau in [0.2211,0.174,0.1637,0.1864]:
+    num=[23.3333/2.94]
+    den=[tau,1]
+    sys=tf(num, den)
+
+    control.bode(sys,dB=True)
+    plt.show()
+
+    y,t=step(sys)
+    y,t,_=lsim(sys,2.94,np.linspace(0,3,500))
+    plt.plot(t,y)
 plt.show()
 
 plotLine(23.333)

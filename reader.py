@@ -1,7 +1,6 @@
 import serial
 import matplotlib.pyplot as plt
 import json
-from filtroKalman import kalman_filter
 
 sensores = serial.Serial('COM6', 115200)
 
@@ -11,7 +10,7 @@ ts=[]
 while(sensores.inWaiting()==0):
     pass
 #Capting the ESP32 string and converting it into a list 
-for t in range(300):
+for t in range(800):
     leitura = sensores.readline()
     leitura = str(leitura,'utf-8')
     leitura = leitura.strip('\r\n')
@@ -30,7 +29,7 @@ for t in ts:
 
 print("Todos:",ts)
 plt.plot(range(len(fs)),fs)
-plt.axis([0,300,0,0.005])
+plt.axis([0,800,-0.05,0.005])
 plt.show()
 
-with open("dados4.json",'w') as f: json.dump(fs,f)
+with open("freq2.4Hzs.json",'w') as f: json.dump(fs,f)
