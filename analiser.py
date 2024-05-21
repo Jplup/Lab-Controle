@@ -5,9 +5,34 @@ from control.matlab import *
 import numpy as np
 import control
 
+
+def errorDelete(signal,max):
+    for i in range(len(signal)):
+        if i>0:
+            if signal[i]>max:
+                signal[i]=(signal[i-1]+signal[i+1])/2
+    return signal
+
 with open("dados4.json") as f:
     fs=json.load(f)[2:]
     fs[0]=0.000000000001
+
+pathsExtentions=["","input","tempos"]
+pathsExtentions=["Hz"+extention+".json" for extention in pathsExtentions]
+
+print("ex:",pathsExtentions)
+
+for freq in [0.1,1,10,100,1000]:
+    values=[]
+    for extention in pathsExtentions:
+        print("freq:",freq,"extention:",extention)
+        print("path:","freq"+str(freq)+extention)
+        values.append(json.load(open("freq"+str(freq)+extention)))
+    plt.plot(values[2],values[1],'--')
+    plt.plot(values[2],values[0])
+    xs,smooth=smoothSignal([values[2],errorDelete(values[0],0.00105)],0.5,20)
+    plt.plot(xs,smooth)
+    plt.show()
     
 ts=[1/f for f in fs]
 
@@ -17,12 +42,6 @@ for t in ts:
     ms.append((((t+a)*10e-6)-10e6)/2)
     a+=t
 
-def errorDelete(signal,max,interpolate=True):
-    for i in range(len(signal)):
-        if i>0:
-            if signal[i]>max:
-                signal[i]=(signal[i-1]+signal[i+1])/2
-    return signal
                 
 fcs=[val/2 for val in errorDelete(fs,0.0005)]
 
@@ -59,16 +78,3 @@ for f,c in zip(nneis,cols):
     x,y=smoothSignal([ms,fcs],1,f)
     plt.plot(x,y,c)
 plt.show()
-
-
-"""
-fig, axs=plt.subplots(len(smuls),len(nneis))
-for i,smul in enumerate(smuls):
-    for j,nnei in enumerate(nneis):
-        sx,sy=smoothSignal([ms,fcs],smul,nnei)
-        axs[i,j].plot(ms,fcs)
-        axs[i,j].plot(sx,sy,c='r')
-        axs[i,j].set_title("Mul:"+str(smul)+" Nn:"+str(nnei))
-
-plt.show()
-"""
