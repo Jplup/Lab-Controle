@@ -22,16 +22,18 @@ pathsExtentions=["Hz"+extention+".json" for extention in pathsExtentions]
 
 print("ex:",pathsExtentions)
 
-for freq in [0.1,1,10,100,1000]:
+for freq in [0,0.1,1,2.4,4,10,100,1000]:
     values=[]
     for extention in pathsExtentions:
         print("freq:",freq,"extention:",extention)
         print("path:","freq"+str(freq)+extention)
         values.append(json.load(open("freq"+str(freq)+extention)))
-    plt.plot(values[2],values[1],'--')
-    plt.plot(values[2],values[0])
-    xs,smooth=smoothSignal([values[2],errorDelete(values[0],0.00105)],0.5,20)
-    plt.plot(xs,smooth)
+    plt.plot(values[2],[(3.3*(200*((y+1)/2)+50)/255)*10e2 for y in values[1]],'--')
+    plt.plot(values[2],[((y*10e6))/950 for y in values[0]])
+    xs,smooth=smoothSignal([values[2],errorDelete(values[0],0.00105)],1,20)
+    #xs,smooth=smoothSignal([xs,smooth],1,5)
+    plt.plot(xs,[((y*10e6))/950 for y in smooth])
+    plt.grid(True)
     plt.show()
     
 ts=[1/f for f in fs]

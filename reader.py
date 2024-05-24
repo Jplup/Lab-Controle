@@ -8,13 +8,13 @@ ts=[]
 tempos=[]
 entrada=[]
 
-freq=1000
+freq=0
 
 #If the program doesnt recieve a string the code will pass the info
 while(sensores.inWaiting()==0):
     pass
 #Capting the ESP32 string and converting it into a list 
-for t in range(int(max(1000/freq,1000))):
+for t in range(int(max(1000,1000))):
     leitura = sensores.readline()
     leitura = str(leitura,'utf-8')
     leitura = leitura.strip('\r\n')

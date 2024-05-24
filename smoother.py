@@ -4,8 +4,10 @@ def linear(p1,p2,q):
     return [x,y]
 
 def sampleDSignal(xs,ys,mul=1):
+    print("xs:",len(xs),"ys:",len(ys))
     dts=[]
     for i in range(len(xs)-1): dts.append(xs[i+1]-xs[i])
+    print("dts:",len(dts))
     dt=min(dts)/mul
     n=(xs[len(xs)-1]-xs[0])/dt
     p0=[xs[0],ys[0]]
