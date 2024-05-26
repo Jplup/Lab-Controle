@@ -8,7 +8,7 @@ import control
 
 def errorDelete(signal,max):
     for i in range(len(signal)):
-        if i>0:
+        if i>0 and i<len(signal)-1:
             if signal[i]>max:
                 signal[i]=(signal[i-1]+signal[i+1])/2
     return signal
@@ -22,17 +22,39 @@ pathsExtentions=["Hz"+extention+".json" for extention in pathsExtentions]
 
 print("ex:",pathsExtentions)
 
-for freq in [0,0.1,1,2.4,4,10,100,1000]:
+for freq in [0.1,1,2.4,4,10,100,1000]:
     values=[]
     for extention in pathsExtentions:
         print("freq:",freq,"extention:",extention)
         print("path:","freq"+str(freq)+extention)
         values.append(json.load(open("freq"+str(freq)+extention)))
-    plt.plot(values[2],[(3.3*(200*((y+1)/2)+50)/255)*10e2 for y in values[1]],'--')
-    plt.plot(values[2],[((y*10e6))/950 for y in values[0]])
-    xs,smooth=smoothSignal([values[2],errorDelete(values[0],0.00105)],1,20)
-    #xs,smooth=smoothSignal([xs,smooth],1,5)
-    plt.plot(xs,[((y*10e6))/950 for y in smooth])
+    plt.plot(values[2],[(3.3*(200*(((y*10e3)+1)/2)+50)/255) for y in values[1]],'--',label="Entrada")
+    values[0]=errorDelete([((y*10e6))/950 for y in values[0]],9)
+    for _ in range(5):
+        values[0]=errorDelete(values[0],9)
+    plt.plot(values[2],values[0],label='Saída original')
+    xs,smooth=smoothSignal([values[2],values[0]],0.2,25)
+    xs,smooth=smoothSignal([xs,smooth],1,10)
+    plt.plot(xs,smooth,label='Saída filtrada')
+    plt.xlabel("Tempo (s)",fontweight='bold')
+    plt.ylabel("Frequência (Hz)",fontweight='bold')
+    #plt.plot([0,20],[4.92,4.92],'--',c='r')
+    #plt.plot([0,10],[2.275+1.32,2.275+1.32],'--',c='r')
+    #plt.plot([0,10],[3.42+1.32,3.42+1.32],'--',c='r')
+    #plt.plot([0,10],[3.528+1.32,3.528+1.32],'--',c='r')
+    """ts=[0.0455]
+    cs=['b','r','g','k']
+    k=2.79
+    plt.show()
+    for t,c in zip(ts,cs):
+        s=control.TransferFunction.s
+        tf=k/((t*s)+1)
+        ti,y=control.step_response(tf)
+        ti=[time+2.01 for time in ti]
+        y=[(Y*1.29)+1.32 for Y in y]
+        plt.plot(ti,y,c=c,label="T="+str(t))"""
+    plt.title("Frquência de entrada = "+str(freq)+" Hz")
+    plt.legend()
     plt.grid(True)
     plt.show()
     
