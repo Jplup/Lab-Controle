@@ -11,18 +11,18 @@ tempos=[]
 entrada=[]
 
 # qual a freqência de entrada a ser coletada
-freq=0
+freq=15
 
 # dependendo da frequencia de entrada, pegamos um numero de pontos diferente, pois precisamos de uma quantidade
 #   mais ou menos fixa de picos de onda. Chegamos a esse método por testes experimentais
 if freq==0: nPoints=1000
-else: nPoints=int(max(1000/freq,1000))
+else: nPoints=int(max(30,1000))
 
 #If the program doesnt recieve a string the code will pass the info
 while(sensores.inWaiting()==0):
     pass
 #Capting the ESP32 string and converting it into a list 
-for t in range(nPoints):
+for t in range(700):
     leitura = sensores.readline()
     leitura = str(leitura,'utf-8')
     leitura = leitura.strip('\r\n')

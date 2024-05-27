@@ -1,19 +1,28 @@
-import numpy
+import numpy as np
 import matplotlib.pyplot as plt
-from control.matlab import *
+import control
 
-# Defina a função de transferência
-num = [1]  # Numerador
-den = [ 1, 1]  # Denominador
-sys = tf(num, den)
+s=control.TransferFunction.s
 
-# Calcule a resposta ao degrau
-y, t = step(sys)
+def createTF(k,p):
+    return k/(s+p)
 
-# Plot
-plt.plot(t,y)
-plt.title('Resposta ao Degrau')
-plt.xlabel('Tempo')
-plt.ylabel('Saída')
-plt.grid()
+
+k=10
+p=4
+deg=createTF(2.79/0.0455,1/0.0455)
+freq=createTF(8.57,4.7868)
+
+control.bode(deg)
+control.bode(freq)
 plt.show()
+
+xs=np.linspace(0,1.4)
+t,y=control.step_response(deg,xs)
+plt.plot(t,y)
+t,y=control.step_response(freq,xs)
+plt.plot(t,y)
+plt.grid(True)
+plt.show()
+
+
