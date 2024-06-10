@@ -22,7 +22,7 @@ pathsExtentions=["Hz"+extention+".json" for extention in pathsExtentions]
 for freq in [0,0.1,0.25,1,2.5,5,10,15,100,1000]:
     values=[] # será uma lista com 3 listas, cada uma com valores para o tempo,entrada e saida
     # preenchimento da lista de listas de valores
-    for extention in pathsExtentions: values.append(json.load(open("freq"+str(freq)+extention)))
+    for extention in pathsExtentions: values.append(json.load(open("data/freq"+str(freq)+extention)))
     # plot dos valores da entrada, como esses valores são de um seno que é usado para calcular um
     #   um valor de duty cycle entre 50 e 250 de um PWM que tem valor maximo de duty cycle de 255,
     #   precisamos fazer esses calculos e multiplicar por 3.3(tensão maxima do PWM) para saber qual

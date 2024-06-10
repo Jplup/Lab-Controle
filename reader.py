@@ -48,6 +48,6 @@ plt.plot(tempos,entrada)
 plt.show()
 
 # Salvamos os valores
-with open("freq"+str(freq)+"Hz.json",'w') as f: json.dump(frequencias,f)
-with open("freq"+str(freq)+"Hztempos.json",'w') as f: json.dump(tempos,f)
-with open("freq"+str(freq)+"Hzinput.json",'w') as f: json.dump(entrada,f)
+with open("data/freq"+str(freq)+"Hz.json",'w') as f: json.dump(frequencias,f)
+with open("data/freq"+str(freq)+"Hztempos.json",'w') as f: json.dump(tempos,f)
+with open("data/freq"+str(freq)+"Hzinput.json",'w') as f: json.dump(entrada,f)
